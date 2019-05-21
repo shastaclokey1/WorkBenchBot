@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdbool.h>
+#include "WBBMain.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,7 +45,7 @@
 TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN PV */
-bool runMotorDriverStateMachine = false;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -53,13 +53,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
-void WBBMain(void);
-void EnableMotorDriver(void);
-void SetMotorDriverForward(void);
-void SetMotorDriverBackward(void);
-void PulseMotorDriver(void);
-void StartMotorDriverTimer(void);
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -98,7 +92,7 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-
+  InitMotorDriver1TimerHandle(&htim3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -240,59 +234,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void WBBMain(void)
-{
-	EnableMotorDriver();
-	SetMotorDriverForward();
-	StartMotorDriverTimer();
 
-	while (true)
-	{
-		if (runMotorDriverStateMachine)
-		{
-			PulseMotorDriver();
-			runMotorDriverStateMachine = false;
-		}
-	}
-}
-
-void EnableMotorDriver(void)
-{
-	HAL_GPIO_WritePin(MotorDriver1Enable_GPIO_Port, MotorDriver1Enable_Pin, GPIO_PIN_RESET);
-	HAL_Delay(1);
-}
-
-void SetMotorDriverForward(void)
-{
-	HAL_GPIO_WritePin(MotorDriver1Direction_GPIO_Port, MotorDriver1Direction_Pin, GPIO_PIN_SET);
-	HAL_Delay(1);
-}
-
-void SetMotorDriverBackward(void)
-{
-	HAL_GPIO_WritePin(MotorDriver1Direction_GPIO_Port, MotorDriver1Direction_Pin, GPIO_PIN_RESET);
-	HAL_Delay(1);
-}
-
-void PulseMotorDriver(void)
-{
-	HAL_GPIO_WritePin(MotorDriver1Pulse_GPIO_Port, MotorDriver1Pulse_Pin, GPIO_PIN_SET);
-	HAL_Delay(1);
-	HAL_GPIO_WritePin(MotorDriver1Pulse_GPIO_Port, MotorDriver1Pulse_Pin, GPIO_PIN_RESET);
-}
-
-void StartMotorDriverTimer(void)
-{
-	HAL_TIM_Base_Start_IT(&htim3);
-}
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-	if (htim->Instance == htim3.Instance)
-	{
-		runMotorDriverStateMachine = true;
-	}
-}
 /* USER CODE END 4 */
 
 /**
