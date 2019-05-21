@@ -258,17 +258,20 @@ void WBBMain(void)
 
 void EnableMotorDriver(void)
 {
-	HAL_GPIO_WritePin(MotorDriver1Enable_GPIO_Port, MotorDriver1Enable_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(MotorDriver1Enable_GPIO_Port, MotorDriver1Enable_Pin, GPIO_PIN_RESET);
+	HAL_Delay(1);
 }
 
 void SetMotorDriverForward(void)
 {
 	HAL_GPIO_WritePin(MotorDriver1Direction_GPIO_Port, MotorDriver1Direction_Pin, GPIO_PIN_SET);
+	HAL_Delay(1);
 }
 
 void SetMotorDriverBackward(void)
 {
 	HAL_GPIO_WritePin(MotorDriver1Direction_GPIO_Port, MotorDriver1Direction_Pin, GPIO_PIN_RESET);
+	HAL_Delay(1);
 }
 
 void PulseMotorDriver(void)
