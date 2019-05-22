@@ -1,0 +1,4 @@
+Sensor Breakout Board:
+https://www.st.com/content/st_com/en/products/ecosystems/stm32-open-development-environment/stm32-nucleo-expansion-boards/stm32-ode-sense-hw/x-nucleo-6180xa1.html#resource
+Software package for Sensor:
+https://www.st.com/en/embedded-software/stsw-img003.html
